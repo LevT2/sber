@@ -9,13 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@NamedQuery(name=AccountType.QUERY_SELECT_ID_BY_NAME,
-//        query="SELECT b.id FROM AccountType b WHERE b.name = :" + AccountType.PARAM_NAME)
 @Table(name = "ACCOUNT_TYPE")
 public class AccountType {
-
-//    public static final String QUERY_SELECT_ID_BY_NAME = "AccountType.findAccountTypeIdByName";
-//    public static final String PARAM_NAME = "name";
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -97,9 +92,9 @@ public class AccountType {
         stringBuilder.append(name);
         stringBuilder.append("  id="+id);
 
-        if (accounts != null) {
-            accounts.forEach(stringBuilder::append);
-        }
+//        if (accounts != null) {
+//            accounts.forEach(stringBuilder::append);
+//        }
         return stringBuilder.toString();
     }
 }

@@ -1,0 +1,14 @@
+
+
+
+Отправляю решение сразу к 6 и 7 модулям, но минимальное (CommandLineRunner и Logger, нет обработки исключений).
+
+Рассчитываю на обратную связь: ПОМОГИТЕ воткнуть Mockito тесты
+
+Возможно, что дополнительно отправлю более навороченный проект
+
+
+Благодарности (помимо лектора):
+https://stackabuse.com/guide-to-spring-data-jpa/
+https://www.javabullets.com/access-entitymanager-spring-data-jpa/
+https://habr.com/ru/post/441386/
