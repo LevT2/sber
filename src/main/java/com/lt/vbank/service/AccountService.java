@@ -4,15 +4,18 @@ import com.lt.vbank.model.Account;
 
 public interface AccountService {
 
-    void createAccount(String name, String accountTypename);
+    void createAccount(String name, String accountTypeName);
 
-    void createAccount(Account account);
+    void deleteAccount(String name, String accountTypeName);
 
-    void updateAccount(Account account, String newName);
+    void updateAccount(String name, String accountTypeName, String newName);
 
-    void deleteAccount(int id);
+    public void printAccounts();
 
-    Iterable<Account> getAccounts();
+
+//    void deleteAccount(int id);
+//
+//    Iterable<Account> getAccounts();
 
     //Account getAccount(int id);
 }

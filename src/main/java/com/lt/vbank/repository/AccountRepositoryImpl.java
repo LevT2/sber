@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
-@Transactional
+//@Transactional
 public class AccountRepositoryImpl implements AccountRepositoryCustom {
     @PersistenceContext
     private EntityManager em;
@@ -42,4 +43,11 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
     public AccountType getAccountTypeByName(String name) {
         return em.find(AccountType.class,lookupAccountType_Id(name));
     }
+
+    public void clear(){
+        //Однако  https://stackoverflow.com/questions/13886608/when-to-use-entitymanager-clear
+        em.clear();
+    }
+
+
 }

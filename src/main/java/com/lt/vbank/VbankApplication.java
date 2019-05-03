@@ -17,7 +17,8 @@ public class VbankApplication implements CommandLineRunner {
         SpringApplication.run(VbankApplication.class, args);
     }
 
-    private final AccountService accountService;
+    @Autowired
+    private AccountService accountService;
 
 
     @Override
@@ -25,5 +26,19 @@ public class VbankApplication implements CommandLineRunner {
         accountService.createAccount("IVANOV","DEBIT");
         accountService.createAccount("PETROV","CREDIT");
         accountService.createAccount("SIDOROV","DEBIT");
+
+        accountService.printAccounts();
+
+//        accountService.deleteAccount(2);
+        accountService.deleteAccount("SIDOROV","DEBIT");
+        accountService.printAccounts();
+
+        accountService.updateAccount("IVANOV", "DEBIT","IVANOV IVAN");
+        accountService.printAccounts();
+
+
+
     }
+
+
 }

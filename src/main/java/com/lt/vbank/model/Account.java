@@ -65,7 +65,7 @@ public class Account {
         return "Account{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", accountType=" + accountType +
+                ", type=" + accountType.getName() +
                 '}';
     }
 }
