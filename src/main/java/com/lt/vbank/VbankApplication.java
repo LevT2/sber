@@ -43,7 +43,7 @@ public class VbankApplication implements CommandLineRunner {
         accountTypeRepository.findAll().forEach(System.out::println);
 
         System.out.println();
-        System.out.println("\n Precreated client accounts (DATE_ACC set backward for \"select by date\" demo):\n");
+        System.out.println("\n Precreated client accounts (DATE_ACC set backward for further testing purposes):\n");
         accountService.printAccounts("DEBIT");
         accountService.printAccounts("CREDIT");
 
