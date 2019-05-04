@@ -11,6 +11,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 @SpringBootApplication
 public class VbankApplication implements CommandLineRunner {
 
@@ -27,6 +30,7 @@ public class VbankApplication implements CommandLineRunner {
     @Autowired
     private AccountService accountService;
 
+    // for demo output accountTypeRepository.findAll() only
     @Autowired
     AccountTypeRepository accountTypeRepository;
 
@@ -34,23 +38,39 @@ public class VbankApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         System.out.println();
-        System.out.println("Precreated account types:");
+        System.out.println("\n Precreated account types:\n");
+        // the single use of accountTypeRepository
         accountTypeRepository.findAll().forEach(System.out::println);
 
-        // added base error handling for missing AccountType: see AccountServiceImpl
+        System.out.println();
+        System.out.println("\n Precreated client accounts (DATE_ACC set backward for \"select by date\" demo):\n");
+        accountService.printAccounts("DEBIT");
+        accountService.printAccounts("CREDIT");
+
+        // added basic error handling for missing AccountType: see AccountServiceImpl
         // @Transactional public AccountType checkAccountType(String name)
+
         System.out.println();
         logger.info("Initializing client accounts");
-        accountService.createAccount("IVANOV","DEBIT");
-        accountService.createAccount("PETROV","CREDIT");
-        accountService.createAccount("SIDOROV","DEBIT");
+        LocalDate localDateNow = LocalDate.now(ZoneId.of("Europe/Moscow"));
+
+        accountService.createAccount("IVANOV","DEBIT",localDateNow);
+        accountService.createAccount("PETROV","CREDIT",localDateNow);
+        accountService.createAccount("SIDOROV","DEBIT",localDateNow);
         dump();
 
         System.out.println();
-        System.out.println("\n Count of client Accounts grouped by AccountType:");
+        System.out.println("\n  Count of client Accounts grouped by AccountType:\n");
         accountService.printAccountTypeInfo();
 
-        System.out.println("\n  List of debit accounts:");
+        System.out.println();
+        System.out.println("\n  Client Account names and creation dates:\n");
+        accountService.printSelectedInfofromEntities();
+
+        System.out.println("\n  List of today's accounts:\n");
+        accountService.printTodaysAccounts();
+
+        System.out.println("\n  List of debit accounts:\n");
         accountService.printAccounts("DEBIT");
 
         System.out.println();
@@ -67,12 +87,13 @@ public class VbankApplication implements CommandLineRunner {
 
         System.out.println();
         logger.info("Printing accounts where type like C%");
+        System.out.println("\n  Found:\n");
         accountService.printAccountsWhereTypeLike("C%");
 
     }
 
     private void dump() {
-        System.out.println("\n  Client accounts dump:");
+        System.out.println("\n  Client accounts dump:\n");
         accountService.printAccounts();
     }
 }

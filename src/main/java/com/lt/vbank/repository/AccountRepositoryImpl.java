@@ -29,7 +29,7 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
     }
 
     @Override
-    public List<AccountTypeInfo> getAccountTypeInfo() {
+    public Iterable<AccountTypeInfo> getAccountTypeInfo() {
         return em.createQuery(
                 "select new com.lt.vbank.dto.AccountTypeInfo(" +
                         "at.name, size(at.accounts)) " +

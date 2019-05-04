@@ -1,10 +1,11 @@
 package com.lt.vbank.service;
 
-import com.lt.vbank.model.Account;
+
+import java.time.LocalDate;
 
 public interface AccountService {
 
-    void createAccount(String name, String type);
+    void createAccount(String name, String type, LocalDate localDate);
 
     void deleteAccount(String name, String type);
 
@@ -13,6 +14,10 @@ public interface AccountService {
     void printAccounts();
 
     void printAccounts(String type);
+
+    void printSelectedInfofromEntities();
+
+    void printTodaysAccounts();
 
     void printAccountsWhereTypeLike(String typeLike);
 

@@ -2,8 +2,11 @@ package com.lt.vbank.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="CLIENTS")
@@ -23,17 +26,17 @@ public class Account {
     private AccountType accountType;
 
 
+    @Column(name = "DATE_ACC")
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateAcc;
+
     public Account() {
     }
 
     public Account(String name) {
         this.name = name;
     }
-//
-//    public Account(String name, AccountType accountType) {
-//        this.name = name;
-//        this.accountType = accountType;
-//    }
 
     public int getId() {
         return id;
@@ -59,6 +62,13 @@ public class Account {
         this.name = name;
     }
 
+    public Date getDateAcc() {
+        return dateAcc;
+    }
+
+    public void setDateAcc(Date dateAcc) {
+        this.dateAcc = dateAcc;
+    }
 
     @Override
     public String toString() {

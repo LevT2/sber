@@ -5,14 +5,21 @@ import com.lt.vbank.model.Account;
 import com.lt.vbank.model.AccountType;
 import com.lt.vbank.repository.AccountRepository;
 import com.lt.vbank.repository.AccountTypeRepository;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.function.Consumer;
 
 @Service
 @Transactional
@@ -51,6 +58,23 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    public void createAccount(String name, String type, LocalDate localDate) {
+        AccountType accountType = getExistentAccountType(type);
+        if (null == accountType) return;
+
+        Account account = new Account(name);
+        account.setAccountType(accountType);
+
+        LocalDateTime localDateTime = localDate.atTime(12,0);
+
+        account.setDateAcc(
+                java.sql.Timestamp.valueOf(localDateTime));
+
+        accountRepo.saveAndFlush(account);
+        accountRepo.clear();
+    }
+
+
     public void createAccount(String name, String type) {
         AccountType accountType = getExistentAccountType(type);
         if (null == accountType) return;
@@ -58,8 +82,13 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account(name);
         account.setAccountType(accountType);
 
-        accountRepo.save(account);
-        accountRepo.clear();  //TODO повторить тему
+        ZoneId timeZone = ZoneId.of("Europe/Moscow");
+        account.setDateAcc(
+                java.sql.Timestamp.valueOf(
+                        LocalDateTime.now(timeZone)));
+
+        accountRepo.saveAndFlush(account);
+        accountRepo.clear();
     }
 
 
@@ -87,7 +116,9 @@ public class AccountServiceImpl implements AccountService {
 
         accountRepo.saveAndFlush(account);
         accountRepo.clear();
-        logger.info("New name set: {}", accountRepo.findByNameAndAccountType_Id(newName,accountType.getId()).getName());
+        logger.info("New name set: {}",
+                accountRepo.findByNameAndAccountType_Id(newName,
+                        accountType.getId()).getName());
     }
 
 
@@ -96,7 +127,8 @@ public class AccountServiceImpl implements AccountService {
         accountRepo.findAll().
                 forEach(System.out::println);
     }
-    
+
+
     @Override
     public void printAccounts(String type){
         AccountType accountType = getExistentAccountType(type);
@@ -106,6 +138,24 @@ public class AccountServiceImpl implements AccountService {
                 forEach(System.out::println);
     }
 
+    @Override
+    public void printTodaysAccounts() {
+        accountRepo.findAllByDateAccIsToday().
+                forEach(System.out::println);
+    }
+
+    @Override
+    public void printSelectedInfofromEntities(){
+        Consumer<Account> printSelected = account -> System.out.printf(
+                "Account (selected fields): name= {%s}, dateAcc= {%s}%n",
+                account.getName(),
+                new org.joda.time.LocalDateTime(account.getDateAcc()).
+                        toLocalDate().
+                        toString());
+
+        accountRepo.findAll().
+                forEach(printSelected);
+    }
 
     @Override
     public void printAccountsWhereTypeLike(String typeLike){
@@ -114,7 +164,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void printAccountTypeInfo() {
-        List<AccountTypeInfo> info = accountRepo.getAccountTypeInfo();
+        Iterable<AccountTypeInfo> info = accountRepo.getAccountTypeInfo();
         info.forEach(System.out::println);
     }
 }
