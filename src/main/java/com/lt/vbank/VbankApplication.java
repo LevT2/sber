@@ -74,12 +74,22 @@ public class VbankApplication implements CommandLineRunner {
         accountService.printAccounts("DEBIT");
 
         System.out.println();
+        logger.info("Exception deleting invalid Client account");
+        accountService.deleteAccount("BADNAME", "DEBIT");
+
+        System.out.println();
+        logger.info("Exception updating Client account with invalid name");
+        accountService.updateAccount("BADNAME", "DEBIT","IVANOV IVAN");
+
+        System.out.println();
         logger.info("Deleting account SIDOROV");
         accountService.deleteAccount("SIDOROV","DEBIT");
         dump();
 
-        //don't try to rename missing user
-        //TODO  will fix after adding advanced test infrastructure
+        System.out.println();
+        logger.info("Exception updating Client account with invalid type");
+        accountService.updateAccount("IVANOV", "BAD-TYPE","IVANOV IVAN");
+
         System.out.println();
         logger.info("Renaming account IVANOV");
         accountService.updateAccount("IVANOV", "DEBIT","IVANOV IVAN");

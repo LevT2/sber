@@ -21,7 +21,7 @@ public class AccountTypeInfo {
     public String toString() {
         return "AccountTypeInfo{" +
                 "name='" + name + '\'' +
-                ", clientAccountsAmount=" + clientsAmount +
+                ", Amount=" + clientsAmount +
                 '}';
     }
 }

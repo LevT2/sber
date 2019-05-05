@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="CLIENTS")
-public class Account {
+public class Account { // implements AutoCloseable{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "ID",nullable = false, updatable = false)
@@ -69,6 +69,13 @@ public class Account {
     public void setDateAcc(Date dateAcc) {
         this.dateAcc = dateAcc;
     }
+
+
+//    @Override
+//    public void close() throws NullPointerException {
+//        System.out.println("Account closed");
+//    }
+
 
     @Override
     public String toString() {

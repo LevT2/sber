@@ -11,9 +11,13 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Integer>, AccountRepositoryCustom {
 
-    void deleteByNameAndAccountType_Id(String name, int accountTypeId);
+    void deleteByNameAndAccountType_Name(String name, String typeName) throws NullPointerException;
 
-    Account findByNameAndAccountType_Id(String name, int accountTypeId);
+    Optional<Account> findByNameAndAccountType_Name(String name, String typeName);
+
+    Account getByNameAndAccountType_Name(String name, String typeName) throws NullPointerException;
+
+//    Account getByNameAndAccountType_Id(String name, int accountTypeId) throws NullPointerException;
 
     Iterable<Account> findAllByAccountType_Name(String type);
 
@@ -24,6 +28,5 @@ public interface AccountRepository extends JpaRepository<Account,Integer>, Accou
     @Query(nativeQuery = true,
             value="SELECT * FROM `CLIENTS` WHERE `DATE_ACC` > DATEADD('DAY',-1, CURRENT_DATE)")
     Iterable<Account> findAllByDateAccIsToday();
-
 
 }

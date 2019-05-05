@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ACCOUNT_TYPE")
-public class AccountType {
+public class AccountType  {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
